@@ -1,7 +1,7 @@
-// import itemNumbers from './itemNumbers.js';
+import itemNumbers from './itemNumbers.js';
 
 const container = document.querySelector('.container');
-// const elementsNumber = document.querySelector('.item-number');
+const elementsNumber = document.querySelector('.item-number');
 const display = (array) => {
   let content = '';
   array.forEach((element, index) => {
@@ -11,7 +11,7 @@ const display = (array) => {
     </article>`;
   });
   container.innerHTML = content;
-  // const result = itemNumbers(array);
-  // elementsNumber.textContent = `(${result})`;
+  const result = itemNumbers(array);
+  elementsNumber.textContent = `(${result})`;
 };
 export default display;
