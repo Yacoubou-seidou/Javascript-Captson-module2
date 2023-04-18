@@ -2174,14 +2174,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+// import itemNumbers from './itemNumbers.js';
+
 var container = document.querySelector('.container');
+// const elementsNumber = document.querySelector('.item-number');
 var display = function display(array) {
   var content = '';
   array.forEach(function (element, index) {
-    content += " <article class='card'>\n      <img src='public/download.png' alt='cat'>\n      <p>cat ".concat(index, "</p>\n    </article>");
+    content += " <article class='card'>\n      <div class=\"cat-image\"></div>\n      <p>cat ".concat(index, "</p>\n    </article>");
   });
   container.innerHTML = content;
+  // const result = itemNumbers(array);
+  // elementsNumber.textContent = `(${result})`;
 };
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (display);
 
 /***/ }),
@@ -2202,15 +2208,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _displayItems_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./displayItems.js */ "./src/modules/displayItems.js");
 
 
+var container = document.querySelector('.container');
 var getItemsListe = function getItemsListe() {
   axios__WEBPACK_IMPORTED_MODULE_0___default().get('https://cataas.com/api/cats?tags=cute&skip=0&limit=6', {
     headers: {
       'Content-Type': 'application/json'
     }
   }).then(function (response) {
-    console.log(response.data);
     (0,_displayItems_js__WEBPACK_IMPORTED_MODULE_1__["default"])(response.data);
-  })["catch"](console.error());
+  })["catch"](function (error) {
+    container.textContent = error.message;
+  });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getItemsListe);
 
@@ -2238,11 +2246,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(/*! ../../../../../../public/catlogo.avif */ "./public/catlogo.avif"), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(/*! ../../../../../../public/download.png */ "./public/download.png"), __webpack_require__.b);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap);"]);
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
+var ___CSS_LOADER_URL_REPLACEMENT_1___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_1___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: #2fa8cc;\n  font-family: \"Roboto\", sans-serif;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  height: 100vh;\n  overflow: hidden;\n  margin: 0;\n  padding-top: 20px;\n  padding-bottom: 20px;\n  padding-left: 6%;\n  padding-right: 6%;\n}\n\nheader {\n  width: 80%;\n}\n\nnav {\n  display: flex;\n  justify-content: space-evenly;\n  align-items: center;\n  width: 80%;\n}\n\n.brand-logo {\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  border: 2px solid black;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n}\n\n.links-items {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 60%;\n  padding: 0;\n}\n\nli {\n  list-style-type: none;\n}\n\na {\n  text-decoration: none;\n  color: black;\n}\n\n.cats {\n  font-weight: bolder;\n  text-decoration: underline;\n}\n\n.container {\n  display: grid;\n  width: 100%;\n  grid-template-columns: 45% 45%;\n  grid-row-gap: 50px;\n  margin-top: 50px;\n  justify-content: center;\n}\n\n.card {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n\nfooter {\n  position: absolute;\n  bottom: 0;\n  padding-left: 20px;\n  padding-right: 20px;\n  width: 100%;\n  height: 60px;\n  border: 2px solid black;\n}", "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAMA;EACE,sBAAA;AAJF;;AAOA;EACE,yBATc;EAUd,iCAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,2BAAA;EACA,aAAA;EACA,gBAAA;EACA,SAAA;EACA,iBAAA;EACA,oBAAA;EACA,gBAAA;EACA,iBAAA;AAJF;;AAOA;EACE,UAAA;AAJF;;AAOA;EACE,aAAA;EACA,6BAAA;EACA,mBAAA;EACA,UAAA;AAJF;;AAOA;EACE,WAAA;EACA,YAAA;EACA,kBAAA;EACA,uBAAA;EACA,mDAAA;AAJF;;AAOA;EACE,aAAA;EACA,8BAAA;EACA,mBAAA;EACA,UAAA;EACA,UAAA;AAJF;;AAOA;EACE,qBAAA;AAJF;;AAOA;EACE,qBAAA;EACA,YAAA;AAJF;;AAOA;EACE,mBAAA;EACA,0BAAA;AAJF;;AAOA;EACE,aAAA;EACA,WAAA;EACA,8BAAA;EACA,kBAAA;EACA,gBAAA;EACA,uBAAA;AAJF;;AAOA;EACE,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;AAJF;;AAOA;EACE,kBAAA;EACA,SAAA;EACA,kBAAA;EACA,mBAAA;EACA,WAAA;EACA,YAAA;EACA,uBAAA;AAJF","sourcesContent":["@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');\r\n\r\n$primary-color: #2fa8cc;\r\n$secondary-color: #f4f4f4;\r\n$box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\r\n\r\n* {\r\n  box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n  background-color: $primary-color;\r\n  font-family: 'Roboto', sans-serif;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  justify-content: flex-start;\r\n  height: 100vh;\r\n  overflow: hidden;\r\n  margin: 0;\r\n  padding-top: 20px;\r\n  padding-bottom: 20px;\r\n  padding-left: 6%;\r\n  padding-right: 6%;\r\n}\r\n\r\nheader {\r\n  width: 80%;\r\n}\r\n\r\nnav {\r\n  display: flex;\r\n  justify-content: space-evenly;\r\n  align-items: center;\r\n  width: 80%;\r\n}\r\n\r\n.brand-logo {\r\n  width: 60px;\r\n  height: 60px;\r\n  border-radius: 50%;\r\n  border: 2px solid black;\r\n  background: url('/public/catlogo.avif');\r\n}\r\n\r\n.links-items {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  width: 60%;\r\n  padding: 0;\r\n}\r\n\r\nli {\r\n  list-style-type: none;\r\n}\r\n\r\na {\r\n  text-decoration: none;\r\n  color: black;\r\n}\r\n\r\n.cats {\r\n  font-weight: bolder;\r\n  text-decoration: underline;\r\n}\r\n\r\n.container {\r\n  display: grid;\r\n  width: 100%;\r\n  grid-template-columns: 45% 45%;\r\n  grid-row-gap: 50px;\r\n  margin-top: 50px;\r\n  justify-content: center;\r\n}\r\n\r\n.card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n}\r\n\r\nfooter {\r\n  position: absolute;\r\n  bottom: 0;\r\n  padding-left: 20px;\r\n  padding-right: 20px;\r\n  width: 100%;\r\n  height: 60px;\r\n  border: 2px solid black;\r\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: #2fa8cc;\n  font-family: \"Roboto\", sans-serif;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  height: 100vh;\n  overflow: hidden;\n  margin: 0;\n  padding-top: 20px;\n  padding-bottom: 20px;\n  padding-left: 6%;\n  padding-right: 6%;\n}\n\nheader {\n  width: 80%;\n}\n\nnav {\n  display: flex;\n  justify-content: space-evenly;\n  align-items: center;\n  width: 80%;\n}\n\n.brand-logo {\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  border: 2px solid black;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ") center/cover;\n}\n\n.links-items {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 60%;\n  padding: 0;\n}\n\nli {\n  list-style-type: none;\n}\n\na {\n  text-decoration: none;\n  color: black;\n}\n\n.cats {\n  font-weight: bolder;\n  text-decoration: underline;\n}\n\n.container {\n  display: grid;\n  width: 85%;\n  grid-template-columns: 33% 33% 33%;\n  grid-row-gap: 50px;\n  margin-top: 80px;\n  justify-content: center;\n}\n\n.card {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n\n.cat-image {\n  width: 100px;\n  height: 100px;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") center/cover;\n}\n\nfooter {\n  position: fixed;\n  bottom: 0;\n  padding-left: 20px;\n  padding-right: 20px;\n  width: 100%;\n  height: 60px;\n  border: 2px solid black;\n}", "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAMA;EACE,sBAAA;AAJF;;AAOA;EACE,yBATc;EAUd,iCAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,2BAAA;EACA,aAAA;EACA,gBAAA;EACA,SAAA;EACA,iBAAA;EACA,oBAAA;EACA,gBAAA;EACA,iBAAA;AAJF;;AAOA;EACE,UAAA;AAJF;;AAOA;EACE,aAAA;EACA,6BAAA;EACA,mBAAA;EACA,UAAA;AAJF;;AAOA;EACE,WAAA;EACA,YAAA;EACA,kBAAA;EACA,uBAAA;EACA,gEAAA;AAJF;;AAOA;EACE,aAAA;EACA,8BAAA;EACA,mBAAA;EACA,UAAA;EACA,UAAA;AAJF;;AAOA;EACE,qBAAA;AAJF;;AAOA;EACE,qBAAA;EACA,YAAA;AAJF;;AAOA;EACE,mBAAA;EACA,0BAAA;AAJF;;AAOA;EACE,aAAA;EACA,UAAA;EACA,kCAAA;EACA,kBAAA;EACA,gBAAA;EACA,uBAAA;AAJF;;AAOA;EACE,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;AAJF;;AAOA;EACE,YAAA;EACA,aAAA;EACA,gEAAA;AAJF;;AAOA;EACE,eAAA;EACA,SAAA;EACA,kBAAA;EACA,mBAAA;EACA,WAAA;EACA,YAAA;EACA,uBAAA;AAJF","sourcesContent":["@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');\r\n\r\n$primary-color: #2fa8cc;\r\n$secondary-color: #f4f4f4;\r\n$box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\r\n\r\n* {\r\n  box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n  background-color: $primary-color;\r\n  font-family: 'Roboto', sans-serif;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  justify-content: flex-start;\r\n  height: 100vh;\r\n  overflow: hidden;\r\n  margin: 0;\r\n  padding-top: 20px;\r\n  padding-bottom: 20px;\r\n  padding-left: 6%;\r\n  padding-right: 6%;\r\n}\r\n\r\nheader {\r\n  width: 80%;\r\n}\r\n\r\nnav {\r\n  display: flex;\r\n  justify-content: space-evenly;\r\n  align-items: center;\r\n  width: 80%;\r\n}\r\n\r\n.brand-logo {\r\n  width: 60px;\r\n  height: 60px;\r\n  border-radius: 50%;\r\n  border: 2px solid black;\r\n  background: url('/public/catlogo.avif') center / cover;\r\n}\r\n\r\n.links-items {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  width: 60%;\r\n  padding: 0;\r\n}\r\n\r\nli {\r\n  list-style-type: none;\r\n}\r\n\r\na {\r\n  text-decoration: none;\r\n  color: black;\r\n}\r\n\r\n.cats {\r\n  font-weight: bolder;\r\n  text-decoration: underline;\r\n}\r\n\r\n.container {\r\n  display: grid;\r\n  width: 85%;\r\n  grid-template-columns: 33% 33% 33%;\r\n  grid-row-gap: 50px;\r\n  margin-top: 80px;\r\n  justify-content: center;\r\n}\r\n\r\n.card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n}\r\n\r\n.cat-image {\r\n  width: 100px;\r\n  height: 100px;\r\n  background: url('/public/download.png') center / cover;\r\n}\r\n\r\nfooter {\r\n  position: fixed;\r\n  bottom: 0;\r\n  padding-left: 20px;\r\n  padding-right: 20px;\r\n  width: 100%;\r\n  height: 60px;\r\n  border: 2px solid black;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2808,6 +2818,17 @@ module.exports = styleTagTransform;
 "use strict";
 module.exports = __webpack_require__.p + "catlogo.avif";
 
+/***/ }),
+
+/***/ "./public/download.png":
+/*!*****************************!*\
+  !*** ./public/download.png ***!
+  \*****************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "download.png";
+
 /***/ })
 
 /******/ 	});
@@ -2961,4 +2982,4 @@ __webpack_require__.r(__webpack_exports__);
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle09d3d5c36b0d6145314d.js.map
+//# sourceMappingURL=bundle7061313371df274e99e7.js.map
