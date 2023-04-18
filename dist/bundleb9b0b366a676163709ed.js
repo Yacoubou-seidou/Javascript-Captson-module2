@@ -2174,20 +2174,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-// import itemNumbers from './itemNumbers.js';
+/* harmony import */ var _itemNumbers_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./itemNumbers.js */ "./src/modules/itemNumbers.js");
 
 var container = document.querySelector('.container');
-// const elementsNumber = document.querySelector('.item-number');
+var elementsNumber = document.querySelector('.item-number');
 var display = function display(array) {
   var content = '';
   array.forEach(function (element, index) {
     content += " <article class='card'>\n      <div class=\"cat-image\"></div>\n      <p>cat ".concat(index, "</p>\n    </article>");
   });
   container.innerHTML = content;
-  // const result = itemNumbers(array);
-  // elementsNumber.textContent = `(${result})`;
+  var result = (0,_itemNumbers_js__WEBPACK_IMPORTED_MODULE_0__["default"])(array);
+  elementsNumber.textContent = "(".concat(result, ")");
 };
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (display);
 
 /***/ }),
@@ -2221,6 +2220,23 @@ var getItemsListe = function getItemsListe() {
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getItemsListe);
+
+/***/ }),
+
+/***/ "./src/modules/itemNumbers.js":
+/*!************************************!*\
+  !*** ./src/modules/itemNumbers.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (function (array) {
+  return array.length;
+});
 
 /***/ }),
 
@@ -2982,4 +2998,4 @@ __webpack_require__.r(__webpack_exports__);
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle7061313371df274e99e7.js.map
+//# sourceMappingURL=bundleb9b0b366a676163709ed.js.map
