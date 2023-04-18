@@ -40,6 +40,7 @@ nav {
   height: 60px;
   border-radius: 50%;
   border: 2px solid black;
+  background: url('/public/catlogo.avif') center / cover;
 }
 
 .links-items {
@@ -64,8 +65,30 @@ a {
   text-decoration: underline;
 }
 
+.container {
+  display: grid;
+  width: 85%;
+  grid-template-columns: 33% 33% 33%;
+  grid-row-gap: 50px;
+  margin-top: 80px;
+  justify-content: center;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.cat-image {
+  width: 100px;
+  height: 100px;
+  background: url('/public/download.png') center / cover;
+}
+
 footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   padding-left: 20px;
   padding-right: 20px;

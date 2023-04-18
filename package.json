@@ -20,7 +20,7 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.27.5",
-    "hint": "^7.1.8",
+    "hint": "^2.0.0",
     "html-webpack-plugin": "^5.5.0",
     "jest": "^29.5.0",
     "sass": "^1.49.9",
@@ -33,10 +33,10 @@
     "webpack": "^5.70.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4"
+    "webpack-dev-server": "^4.7.4",
+    "axios": "^0.26.1"
   },
   "dependencies": {
-    "axios": "^0.26.1",
-    "regenerator-runtime": "^0.13.11"
+    "axios": "^0.26.1"
   }
 }
