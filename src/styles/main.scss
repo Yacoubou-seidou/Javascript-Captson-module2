@@ -231,3 +231,20 @@ input {
   padding: 7px 7px;
   border-radius: 15px;
 }
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100px;
+}
+
+.btn {
+  font-size: 20px;
+}
+
+.rightAlign {
+  margin: 0;
+  text-align: right;
+  width: 100px;
+}

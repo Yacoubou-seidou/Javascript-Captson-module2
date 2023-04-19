@@ -1,4 +1,4 @@
-import { container } from './displayItems';
+import { container } from './displayItems.js';
 
 const itemPopup = (_id, tags, owner, createdAt, updatedAt, index) => `
 <section class="popup-window" id="popup-${_id}">
@@ -11,10 +11,10 @@ const itemPopup = (_id, tags, owner, createdAt, updatedAt, index) => `
   <div class="popup-cat-image"></div>
   <p class="popup-title">Cat ${index}</p>
   <div class="tags-container" id="tagContainer">
-    <div class="tag">Brazilian</div>
-    <div class="tag">small cat</div>
-    <div class="tag">female cat</div>
-    <div class="tag">londrinense</div>
+    <div class="tag">${tags[0]}</div>
+    <div class="tag">${tags[1]}</div>
+    <div class="tag">${tags[3]}</div>
+    <div class="tag">${tags[4]}</div>
   </div>
   <div class="popup-desc-container">
     <h2>Owner: ${owner}</h2>
