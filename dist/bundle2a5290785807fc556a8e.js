@@ -2172,16 +2172,22 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "card": () => (/* binding */ card),
+/* harmony export */   "container": () => (/* binding */ container),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _itemNumbers_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./itemNumbers.js */ "./src/modules/itemNumbers.js");
+/* eslint-disable no-underscore-dangle */
 
 var container = document.querySelector('.container');
 var elementsNumber = document.querySelector('.item-number');
+var card = function card(_id, index) {
+  return "\n<article class='card' id='card-".concat(_id, "'>\n      <div class=\"cat-image\"></div>\n      <div class=\"info\"><p>cat ").concat(index, "</p>\n      <i class=\"btn fa-regular fa-heart\"></i>\n      </div>\n      <p class='rightAlign'><span>5</span> Likes</p>\n    </article>\n");
+};
 var display = function display(array) {
   var content = '';
   array.forEach(function (element, index) {
-    content += " <article class='card'>\n      <div class=\"cat-image\"></div>\n      <p>cat ".concat(index, "</p>\n    </article>");
+    content += card(element._id, index);
   });
   container.innerHTML = content;
   var result = (0,_itemNumbers_js__WEBPACK_IMPORTED_MODULE_0__["default"])(array);
@@ -2205,6 +2211,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _displayItems_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./displayItems.js */ "./src/modules/displayItems.js");
+/* harmony import */ var _renderPopup_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./renderPopup.js */ "./src/modules/renderPopup.js");
+/* harmony import */ var _popupWindow_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./popupWindow.js */ "./src/modules/popupWindow.js");
+
+
 
 
 var container = document.querySelector('.container');
@@ -2215,6 +2225,8 @@ var getItemsListe = function getItemsListe() {
     }
   }).then(function (response) {
     (0,_displayItems_js__WEBPACK_IMPORTED_MODULE_1__["default"])(response.data);
+    (0,_popupWindow_js__WEBPACK_IMPORTED_MODULE_3__["default"])(response.data);
+    (0,_renderPopup_js__WEBPACK_IMPORTED_MODULE_2__["default"])(response.data);
   })["catch"](function (error) {
     container.textContent = error.message;
   });
@@ -2237,6 +2249,64 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (function (array) {
   return array.length;
 });
+
+/***/ }),
+
+/***/ "./src/modules/popupWindow.js":
+/*!************************************!*\
+  !*** ./src/modules/popupWindow.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _displayItems_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./displayItems.js */ "./src/modules/displayItems.js");
+
+var itemPopup = function itemPopup(_id, tags, owner, createdAt, updatedAt, index) {
+  return "\n<section class=\"popup-window\" id=\"popup-".concat(_id, "\">\n<div class=\"popup-container\">\n  <span class=\"close-popup\" id=\"close-popup-").concat(_id, "\">\n    <svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z\" fill=\"#67798E\"/>\n      </svg>\n    </span>\n  <div class=\"popup-cat-image\"></div>\n  <p class=\"popup-title\">Cat ").concat(index, "</p>\n  <div class=\"tags-container\" id=\"tagContainer\">\n    <div class=\"tag\">").concat(tags[0], "</div>\n    <div class=\"tag\">").concat(tags[1], "</div>\n    <div class=\"tag\">").concat(tags[3], "</div>\n    <div class=\"tag\">").concat(tags[4], "</div>\n  </div>\n  <div class=\"popup-desc-container\">\n    <h2>Owner: ").concat(owner, "</h2>\n    <h2>Created At: ").concat(createdAt, "</h2>\n    <h2>Updated At: ").concat(updatedAt, "</h2>\n  </div>\n  <div class=\"comments-section\">\n    <h3>Comments</h3>\n    <div class=\"comments-list-").concat(_id, "\">\n      <div>Mia: I love it</div>\n      <div>Mia: I love it</div>\n      <div>Alex: I'd love to buy it</div>\n      <div>Alex: I'd love to buy it</div>\n    </div>\n    <button class=\"add-comment-btn\" id=\"commentBtn-").concat(_id, "\">Add Comment</button>\n    <form class=\"comment-form\" id=\"commentForm-").concat(_id, "\">\n      <input type=\"text\" class=\"comment-input\" id=\"commenter-name\" placeholder=\"Name\">\n      <input type=\"text\" class=\"comment-input\" id=\"comment-text\" placeholder=\"Comment\">\n      <button type=\"submit\">Add Comment</button>\n    </form>\n  </div>\n</div>\n</section>\n");
+};
+var displayPopup = function displayPopup(array) {
+  array.forEach(function (element, index) {
+    var popupHtml = itemPopup(
+    // eslint-disable-next-line no-underscore-dangle
+    element._id, element.tags, element.owner, element.createdAt, element.updatedAt, index);
+    _displayItems_js__WEBPACK_IMPORTED_MODULE_0__.container.insertAdjacentHTML('afterbegin', popupHtml);
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (displayPopup);
+
+/***/ }),
+
+/***/ "./src/modules/renderPopup.js":
+/*!************************************!*\
+  !*** ./src/modules/renderPopup.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* eslint-disable no-underscore-dangle */
+
+var renderPopup = function renderPopup(array) {
+  array.forEach(function (element) {
+    var catCard = document.getElementById("card-".concat(element._id));
+    catCard.addEventListener('click', function () {
+      var popUp = document.getElementById("popup-".concat(element._id));
+      var closePopup = document.getElementById("close-popup-".concat(element._id));
+      popUp.style.display = 'flex';
+      closePopup.addEventListener('click', function () {
+        popUp.style.display = 'none';
+      });
+    });
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (renderPopup);
 
 /***/ }),
 
@@ -2268,7 +2338,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.c
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
 var ___CSS_LOADER_URL_REPLACEMENT_1___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_1___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: #2fa8cc;\n  font-family: \"Roboto\", sans-serif;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  height: 100vh;\n  overflow: hidden;\n  margin: 0;\n  padding-top: 20px;\n  padding-bottom: 20px;\n  padding-left: 6%;\n  padding-right: 6%;\n}\n\nheader {\n  width: 80%;\n}\n\nnav {\n  display: flex;\n  justify-content: space-evenly;\n  align-items: center;\n  width: 80%;\n}\n\n.brand-logo {\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  border: 2px solid black;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ") center/cover;\n}\n\n.links-items {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 60%;\n  padding: 0;\n}\n\nli {\n  list-style-type: none;\n}\n\na {\n  text-decoration: none;\n  color: black;\n}\n\n.cats {\n  font-weight: bolder;\n  text-decoration: underline;\n}\n\n.container {\n  display: grid;\n  width: 85%;\n  grid-template-columns: 33% 33% 33%;\n  grid-row-gap: 50px;\n  margin-top: 80px;\n  justify-content: center;\n}\n\n.card {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n}\n\n.cat-image {\n  width: 100px;\n  height: 100px;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") center/cover;\n}\n\nfooter {\n  position: fixed;\n  bottom: 0;\n  padding-left: 20px;\n  padding-right: 20px;\n  width: 100%;\n  height: 60px;\n  border: 2px solid black;\n}", "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAMA;EACE,sBAAA;AAJF;;AAOA;EACE,yBATc;EAUd,iCAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,2BAAA;EACA,aAAA;EACA,gBAAA;EACA,SAAA;EACA,iBAAA;EACA,oBAAA;EACA,gBAAA;EACA,iBAAA;AAJF;;AAOA;EACE,UAAA;AAJF;;AAOA;EACE,aAAA;EACA,6BAAA;EACA,mBAAA;EACA,UAAA;AAJF;;AAOA;EACE,WAAA;EACA,YAAA;EACA,kBAAA;EACA,uBAAA;EACA,gEAAA;AAJF;;AAOA;EACE,aAAA;EACA,8BAAA;EACA,mBAAA;EACA,UAAA;EACA,UAAA;AAJF;;AAOA;EACE,qBAAA;AAJF;;AAOA;EACE,qBAAA;EACA,YAAA;AAJF;;AAOA;EACE,mBAAA;EACA,0BAAA;AAJF;;AAOA;EACE,aAAA;EACA,UAAA;EACA,kCAAA;EACA,kBAAA;EACA,gBAAA;EACA,uBAAA;AAJF;;AAOA;EACE,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;AAJF;;AAOA;EACE,YAAA;EACA,aAAA;EACA,gEAAA;AAJF;;AAOA;EACE,eAAA;EACA,SAAA;EACA,kBAAA;EACA,mBAAA;EACA,WAAA;EACA,YAAA;EACA,uBAAA;AAJF","sourcesContent":["@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');\r\n\r\n$primary-color: #2fa8cc;\r\n$secondary-color: #f4f4f4;\r\n$box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\r\n\r\n* {\r\n  box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n  background-color: $primary-color;\r\n  font-family: 'Roboto', sans-serif;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  justify-content: flex-start;\r\n  height: 100vh;\r\n  overflow: hidden;\r\n  margin: 0;\r\n  padding-top: 20px;\r\n  padding-bottom: 20px;\r\n  padding-left: 6%;\r\n  padding-right: 6%;\r\n}\r\n\r\nheader {\r\n  width: 80%;\r\n}\r\n\r\nnav {\r\n  display: flex;\r\n  justify-content: space-evenly;\r\n  align-items: center;\r\n  width: 80%;\r\n}\r\n\r\n.brand-logo {\r\n  width: 60px;\r\n  height: 60px;\r\n  border-radius: 50%;\r\n  border: 2px solid black;\r\n  background: url('/public/catlogo.avif') center / cover;\r\n}\r\n\r\n.links-items {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  width: 60%;\r\n  padding: 0;\r\n}\r\n\r\nli {\r\n  list-style-type: none;\r\n}\r\n\r\na {\r\n  text-decoration: none;\r\n  color: black;\r\n}\r\n\r\n.cats {\r\n  font-weight: bolder;\r\n  text-decoration: underline;\r\n}\r\n\r\n.container {\r\n  display: grid;\r\n  width: 85%;\r\n  grid-template-columns: 33% 33% 33%;\r\n  grid-row-gap: 50px;\r\n  margin-top: 80px;\r\n  justify-content: center;\r\n}\r\n\r\n.card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n}\r\n\r\n.cat-image {\r\n  width: 100px;\r\n  height: 100px;\r\n  background: url('/public/download.png') center / cover;\r\n}\r\n\r\nfooter {\r\n  position: fixed;\r\n  bottom: 0;\r\n  padding-left: 20px;\r\n  padding-right: 20px;\r\n  width: 100%;\r\n  height: 60px;\r\n  border: 2px solid black;\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: #2fa8cc;\n  font-family: \"Roboto\", sans-serif;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  height: 100vh;\n  overflow: hidden;\n  margin: 0;\n  padding-top: 20px;\n  padding-bottom: 20px;\n  padding-left: 6%;\n  padding-right: 6%;\n}\n\nheader {\n  width: 80%;\n}\n\nnav {\n  display: flex;\n  justify-content: space-evenly;\n  align-items: center;\n  width: 80%;\n}\n\n.brand-logo {\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  border: 2px solid black;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ") center/cover;\n}\n\n.links-items {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 60%;\n  padding: 0;\n}\n\nli {\n  list-style-type: none;\n}\n\na {\n  text-decoration: none;\n  color: black;\n}\n\n.cats {\n  font-weight: bolder;\n  text-decoration: underline;\n}\n\n.container {\n  display: grid;\n  width: 85%;\n  grid-template-columns: 33% 33% 33%;\n  grid-row-gap: 50px;\n  margin-top: 80px;\n  justify-content: center;\n}\n\n.card {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  cursor: pointer;\n}\n\n.cat-image {\n  width: 100px;\n  height: 100px;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") center/cover;\n}\n\nfooter {\n  position: fixed;\n  bottom: 0;\n  padding-left: 20px;\n  padding-right: 20px;\n  width: 100%;\n  height: 60px;\n  border: 2px solid black;\n}\n\n.popup-window {\n  z-index: 4;\n  display: none;\n  justify-content: center;\n  align-items: center;\n  position: fixed;\n  top: 0;\n  left: 0;\n  height: 103vh;\n  width: 100%;\n  background: rgba(0, 0, 0, 0.7);\n  backdrop-filter: blur(4px);\n}\n\n.close-popup {\n  position: absolute;\n  top: 20px;\n  right: 20px;\n}\n\n.popup-container {\n  height: 80vh;\n  position: relative;\n  background-color: white;\n  margin: 60px 90px;\n  padding: 16px;\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  gap: 10px;\n  flex-direction: column;\n  border-radius: 15px;\n  overflow-y: scroll;\n}\n\n.popup-cat-image {\n  margin-top: 40px;\n  width: 50px;\n  height: 50px;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") center/cover;\n}\n\n.popup-title {\n  font-size: 20px;\n}\n\n.tags-container {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 25px;\n  padding: 8px 30px;\n}\n\n.tag {\n  background: rgba(175, 172, 172, 0.3);\n  padding: 8px;\n  border-radius: 15px;\n  text-transform: uppercase;\n}\n\n.popup-desc-container {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-between;\n  gap: 22px;\n  padding: 8px 30px;\n}\n\n.popup-desc-container h2 {\n  font-size: 18px;\n}\n\n.comments-section {\n  display: flex;\n  flex-direction: column;\n  gap: 7px;\n}\n\n.comments-section h3 {\n  text-align: center;\n}\n\nbutton {\n  height: 30px;\n  padding-left: 15px;\n  padding-right: 15px;\n  background-color: #2fa8cc;\n  border-radius: 10px;\n  border: none;\n  cursor: pointer;\n  box-shadow: 0 4px #999;\n  font-size: 16px;\n  font-family: \"Roboto\", sans-serif;\n}\n\nbutton:hover {\n  background-color: #2ac5b0;\n}\n\nbutton:active {\n  background-color: #2ac5b0;\n  box-shadow: 0 3px #666;\n  transform: translateY(1px);\n}\n\n.comments-list {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  justify-content: space-around;\n}\n\n.comments-list div {\n  width: 100%;\n  padding: 5px 7px;\n}\n\n.comments-list div:nth-child(odd) {\n  background-color: #999;\n}\n\nform {\n  margin-top: 12px;\n  display: none;\n  flex-wrap: wrap;\n  justify-content: space-between;\n  gap: 15px;\n}\n\ninput {\n  padding: 7px 7px;\n  border-radius: 15px;\n}\n\n.info {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 100px;\n}\n\n.btn {\n  font-size: 20px;\n}\n\n.rightAlign {\n  margin: 0;\n  text-align: right;\n  width: 100px;\n}", "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAMA;EACE,sBAAA;AAJF;;AAOA;EACE,yBATc;EAUd,iCAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,2BAAA;EACA,aAAA;EACA,gBAAA;EACA,SAAA;EACA,iBAAA;EACA,oBAAA;EACA,gBAAA;EACA,iBAAA;AAJF;;AAOA;EACE,UAAA;AAJF;;AAOA;EACE,aAAA;EACA,6BAAA;EACA,mBAAA;EACA,UAAA;AAJF;;AAOA;EACE,WAAA;EACA,YAAA;EACA,kBAAA;EACA,uBAAA;EACA,gEAAA;AAJF;;AAOA;EACE,aAAA;EACA,8BAAA;EACA,mBAAA;EACA,UAAA;EACA,UAAA;AAJF;;AAOA;EACE,qBAAA;AAJF;;AAOA;EACE,qBAAA;EACA,YAAA;AAJF;;AAOA;EACE,mBAAA;EACA,0BAAA;AAJF;;AAOA;EACE,aAAA;EACA,UAAA;EACA,kCAAA;EACA,kBAAA;EACA,gBAAA;EACA,uBAAA;AAJF;;AAOA;EACE,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;EACA,eAAA;AAJF;;AAOA;EACE,YAAA;EACA,aAAA;EACA,gEAAA;AAJF;;AAOA;EACE,eAAA;EACA,SAAA;EACA,kBAAA;EACA,mBAAA;EACA,WAAA;EACA,YAAA;EACA,uBAAA;AAJF;;AAOA;EACE,UAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,eAAA;EACA,MAAA;EACA,OAAA;EACA,aAAA;EACA,WAAA;EACA,8BAAA;EACA,0BAAA;AAJF;;AAOA;EACE,kBAAA;EACA,SAAA;EACA,WAAA;AAJF;;AAOA;EACE,YAAA;EACA,kBAAA;EACA,uBAAA;EACA,iBAAA;EACA,aAAA;EACA,aAAA;EACA,mBAAA;EACA,2BAAA;EACA,SAAA;EACA,sBAAA;EACA,mBAAA;EACA,kBAAA;AAJF;;AAOA;EACE,gBAAA;EACA,WAAA;EACA,YAAA;EACA,gEAAA;AAJF;;AAOA;EACE,eAAA;AAJF;;AAOA;EACE,aAAA;EACA,eAAA;EACA,SAAA;EACA,iBAAA;AAJF;;AAOA;EACE,oCAAA;EACA,YAAA;EACA,mBAAA;EACA,yBAAA;AAJF;;AAOA;EACE,aAAA;EACA,eAAA;EACA,8BAAA;EACA,SAAA;EACA,iBAAA;AAJF;;AAOA;EACE,eAAA;AAJF;;AAOA;EACE,aAAA;EACA,sBAAA;EACA,QAAA;AAJF;;AAOA;EACE,kBAAA;AAJF;;AAOA;EACE,YAAA;EACA,kBAAA;EACA,mBAAA;EACA,yBAAA;EACA,mBAAA;EACA,YAAA;EACA,eAAA;EACA,sBAAA;EACA,eAAA;EACA,iCAAA;AAJF;;AAOA;EACE,yBAAA;AAJF;;AAOA;EACE,yBAAA;EACA,sBAAA;EACA,0BAAA;AAJF;;AAOA;EACE,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,6BAAA;AAJF;;AAOA;EACE,WAAA;EACA,gBAAA;AAJF;;AAOA;EACE,sBAAA;AAJF;;AAOA;EACE,gBAAA;EACA,aAAA;EACA,eAAA;EACA,8BAAA;EACA,SAAA;AAJF;;AAOA;EACE,gBAAA;EACA,mBAAA;AAJF;;AAOA;EACE,aAAA;EACA,8BAAA;EACA,mBAAA;EACA,YAAA;AAJF;;AAOA;EACE,eAAA;AAJF;;AAOA;EACE,SAAA;EACA,iBAAA;EACA,YAAA;AAJF","sourcesContent":["@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');\r\n\r\n$primary-color: #2fa8cc;\r\n$secondary-color: #f4f4f4;\r\n$box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\r\n\r\n* {\r\n  box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n  background-color: $primary-color;\r\n  font-family: 'Roboto', sans-serif;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  justify-content: flex-start;\r\n  height: 100vh;\r\n  overflow: hidden;\r\n  margin: 0;\r\n  padding-top: 20px;\r\n  padding-bottom: 20px;\r\n  padding-left: 6%;\r\n  padding-right: 6%;\r\n}\r\n\r\nheader {\r\n  width: 80%;\r\n}\r\n\r\nnav {\r\n  display: flex;\r\n  justify-content: space-evenly;\r\n  align-items: center;\r\n  width: 80%;\r\n}\r\n\r\n.brand-logo {\r\n  width: 60px;\r\n  height: 60px;\r\n  border-radius: 50%;\r\n  border: 2px solid black;\r\n  background: url('/public/catlogo.avif') center / cover;\r\n}\r\n\r\n.links-items {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  width: 60%;\r\n  padding: 0;\r\n}\r\n\r\nli {\r\n  list-style-type: none;\r\n}\r\n\r\na {\r\n  text-decoration: none;\r\n  color: black;\r\n}\r\n\r\n.cats {\r\n  font-weight: bolder;\r\n  text-decoration: underline;\r\n}\r\n\r\n.container {\r\n  display: grid;\r\n  width: 85%;\r\n  grid-template-columns: 33% 33% 33%;\r\n  grid-row-gap: 50px;\r\n  margin-top: 80px;\r\n  justify-content: center;\r\n}\r\n\r\n.card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  cursor: pointer;\r\n}\r\n\r\n.cat-image {\r\n  width: 100px;\r\n  height: 100px;\r\n  background: url('/public/download.png') center / cover;\r\n}\r\n\r\nfooter {\r\n  position: fixed;\r\n  bottom: 0;\r\n  padding-left: 20px;\r\n  padding-right: 20px;\r\n  width: 100%;\r\n  height: 60px;\r\n  border: 2px solid black;\r\n}\r\n\r\n.popup-window {\r\n  z-index: 4;\r\n  display: none;\r\n  justify-content: center;\r\n  align-items: center;\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  height: 103vh;\r\n  width: 100%;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  backdrop-filter: blur(4px);\r\n}\r\n\r\n.close-popup {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 20px;\r\n}\r\n\r\n.popup-container {\r\n  height: 80vh;\r\n  position: relative;\r\n  background-color: white;\r\n  margin: 60px 90px;\r\n  padding: 16px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: flex-start;\r\n  gap: 10px;\r\n  flex-direction: column;\r\n  border-radius: 15px;\r\n  overflow-y: scroll;\r\n}\r\n\r\n.popup-cat-image {\r\n  margin-top: 40px;\r\n  width: 50px;\r\n  height: 50px;\r\n  background: url('/public/download.png') center / cover;\r\n}\r\n\r\n.popup-title {\r\n  font-size: 20px;\r\n}\r\n\r\n.tags-container {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  gap: 25px;\r\n  padding: 8px 30px;\r\n}\r\n\r\n.tag {\r\n  background: rgba(175, 172, 172, 0.3);\r\n  padding: 8px;\r\n  border-radius: 15px;\r\n  text-transform: uppercase;\r\n}\r\n\r\n.popup-desc-container {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  justify-content: space-between;\r\n  gap: 22px;\r\n  padding: 8px 30px;\r\n}\r\n\r\n.popup-desc-container h2 {\r\n  font-size: 18px;\r\n}\r\n\r\n.comments-section {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 7px;\r\n}\r\n\r\n.comments-section h3 {\r\n  text-align: center;\r\n}\r\n\r\nbutton {\r\n  height: 30px;\r\n  padding-left: 15px;\r\n  padding-right: 15px;\r\n  background-color: #2fa8cc;\r\n  border-radius: 10px;\r\n  border: none;\r\n  cursor: pointer;\r\n  box-shadow: 0 4px #999;\r\n  font-size: 16px;\r\n  font-family: \"Roboto\", sans-serif;\r\n}\r\n\r\nbutton:hover {\r\n  background-color: #2ac5b0;\r\n}\r\n\r\nbutton:active {\r\n  background-color: #2ac5b0;\r\n  box-shadow: 0 3px #666;\r\n  transform: translateY(1px);\r\n}\r\n\r\n.comments-list {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: flex-start;\r\n  justify-content: space-around;\r\n}\r\n\r\n.comments-list div {\r\n  width: 100%;\r\n  padding: 5px 7px;\r\n}\r\n\r\n.comments-list div:nth-child(odd) {\r\n  background-color: #999;\r\n}\r\n\r\nform {\r\n  margin-top: 12px;\r\n  display: none;\r\n  flex-wrap: wrap;\r\n  justify-content: space-between;\r\n  gap: 15px;\r\n}\r\n\r\ninput {\r\n  padding: 7px 7px;\r\n  border-radius: 15px;\r\n}\r\n\r\n.info {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  width: 100px;\r\n}\r\n\r\n.btn {\r\n  font-size: 20px;\r\n}\r\n\r\n.rightAlign {\r\n  margin: 0;\r\n  text-align: right;\r\n  width: 100px;\r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2998,4 +3068,4 @@ __webpack_require__.r(__webpack_exports__);
 
 /******/ })()
 ;
-//# sourceMappingURL=bundleb9b0b366a676163709ed.js.map
+//# sourceMappingURL=bundle2a5290785807fc556a8e.js.map

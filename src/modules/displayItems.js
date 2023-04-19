@@ -6,7 +6,10 @@ const elementsNumber = document.querySelector('.item-number');
 export const card = (_id, index) => `
 <article class='card' id='card-${_id}'>
       <div class="cat-image"></div>
-      <p>cat ${index}</p>
+      <div class="info"><p>cat ${index}</p>
+      <i class="btn fa-regular fa-heart"></i>
+      </div>
+      <p class='rightAlign'><span>5</span> Likes</p>
     </article>
 `;
 const display = (array) => {
