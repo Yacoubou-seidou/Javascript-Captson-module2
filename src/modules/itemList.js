@@ -1,5 +1,6 @@
 import axios from 'axios';
 import display from './displayItems.js';
+import renderPopup from './renderPopup.js';
 
 const container = document.querySelector('.container');
 
@@ -10,6 +11,7 @@ const getItemsListe = () => {
     },
   }).then((response) => {
     display(response.data);
+    renderPopup(response.data);
   }).catch((error) => {
     container.textContent = error.message;
   });
