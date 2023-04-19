@@ -10,7 +10,7 @@ export const card = (_id, index, likes) => `
       <i class="btn fa-regular fa-heart"></i>
       </div>
       <div><p class='rightAlign'><span>${likes}</span> Likes</p></div>
-      <button class="add-comment-btn" id="commentBtn-${_id}">Add Comment</button>
+      <button class="add-comment-btn" id="commentBtn-${_id}">Comments</button>
     </article>
 `;
 const display = (array, likes) => {
