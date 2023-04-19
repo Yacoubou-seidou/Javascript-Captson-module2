@@ -31,8 +31,8 @@ const itemPopup = (_id, tags, owner, createdAt, updatedAt, index) => `
     </div>
     <button class="add-comment-btn" id="commentBtn-${_id}">Add Comment</button>
     <form class="comment-form" id="commentForm-${_id}">
-      <input type="text" class="comment-input" id="commenter-name" placeholder="Name">
-      <input type="text" class="comment-input" id="comment-text" placeholder="Comment">
+      <input type="text" class="comment-input" id="commenter-name-${_id}" placeholder="Name">
+      <input type="text" class="comment-input" id="comment-text-${_id}" placeholder="Comment">
       <button type="submit">Add Comment</button>
     </form>
   </div>
