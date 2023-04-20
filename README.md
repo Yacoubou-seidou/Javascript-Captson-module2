@@ -51,7 +51,7 @@ HTML, CSS and JavaScript Capstone Project
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 🎥 Video Explanation <a name="video-explanation"></a>
-Coming soon!
+Clicke <a href="https://drive.google.com/file/d/135kZ-3vfTI2jPjz-58UpwSEZpN8UfXHq/view?usp=sharing">here</a> for the video explanation
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 Coming Soon
