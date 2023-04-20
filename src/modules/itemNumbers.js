@@ -1,1 +1,3 @@
-export default (array) => array.length;
+const itemNumbers = (array) => array.length;
+
+module.exports = { itemNumbers };

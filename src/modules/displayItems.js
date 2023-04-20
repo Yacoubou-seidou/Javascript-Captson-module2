@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import itemNumbers from './itemNumbers.js';
+const { itemNumbers } = require('./itemNumbers.js');
 
 export const container = document.querySelector('.container');
 const elementsNumber = document.querySelector('.item-number');
