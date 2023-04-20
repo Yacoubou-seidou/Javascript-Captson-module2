@@ -79,7 +79,6 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
 }
 
 .cat-image {
@@ -190,6 +189,11 @@ footer {
   font-family: "Roboto", sans-serif;
 }
 
+.add-comment-btn:hover {
+  background-color: black;
+  color: white;
+}
+
 .comments-list {
   display: flex;
   flex-direction: column;
@@ -228,6 +232,11 @@ input {
 
 .btn {
   font-size: 20px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  color: white;
 }
 
 .rightAlign {
