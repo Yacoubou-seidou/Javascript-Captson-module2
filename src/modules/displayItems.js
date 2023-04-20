@@ -16,8 +16,8 @@ export const card = (_id, index, likes) => `
 const display = (array, likes) => {
   let content = '';
   array.forEach((element, index) => {
-    const value = likes.filter((like) => element._id === like.item_id);
-    content += card(element._id, index, value[0].likes);
+    // const value = likes.filter((like) => element._id === like.item_id);
+    content += card(element._id, index, likes);
   });
   container.innerHTML = content;
   const result = itemNumbers(array);
