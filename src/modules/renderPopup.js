@@ -31,8 +31,9 @@ const renderPopup = (array) => {
                 username: commentName.value,
                 comment: commentText.value,
               }),
-            })
-              .then((response) => console.log(response));
+            });
+            document.getElementById(`commenter-name-${element._id}`).value = '';
+            document.getElementById(`comment-text-${element._id}`).value = '';
           } catch (error) {
             console.log(error);
           }
