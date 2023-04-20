@@ -10,22 +10,18 @@ const itemPopup = (_id, tags, owner, createdAt, updatedAt, index) => `
     </span>
   <div class="popup-cat-image"></div>
   <p class="popup-title">Cat ${index}</p>
-  <div class="tags-container" id="tagContainer">
-    <div class="tag">${tags[0]}</div>
-    <div class="tag">${tags[1]}</div>
-    <div class="tag">${tags[3]}</div>
-    <div class="tag">${tags[4]}</div>
-  </div>
+  <ul class="tags-container" id="tagContainer">
+  ${tags}
+  </ul>
   <div class="popup-desc-container">
     <h2>Owner: ${owner}</h2>
-    <h2>Created At: ${createdAt}</h2>
-    <h2>Updated At: ${updatedAt}</h2>
+    <h2>Created At: ${new Date(createdAt).toLocaleString()}</h2>
+    <h2>Updated At: ${new Date(updatedAt).toLocaleString()}</h2>
   </div>
   <div class="comments-section" id="comments">
     <h3>Comments</h3>
     <div class="comments-list" id="commentsList-${_id}">
     </div>
-    <button class="add-comment-btn" id="commentBtn-${_id}">Add Comment</button>
     <form class="comment-form" id="commentForm-${_id}">
       <input type="text" class="comment-input" id="commenter-name-${_id}" placeholder="Name">
       <input type="text" class="comment-input" id="comment-text-${_id}" placeholder="Comment">
@@ -37,11 +33,21 @@ const itemPopup = (_id, tags, owner, createdAt, updatedAt, index) => `
 `;
 const displayPopup = (array) => {
   array.forEach((element, index) => {
+    let { owner } = element;
+    let tags = '';
+    if (owner === 'null') {
+      owner = 'No owner';
+    }
+    element.tags.forEach((el, index) => {
+      if (index < 4) {
+        tags += `<li class='tag'> ${el}</li>`;
+      }
+    });
     const popupHtml = itemPopup(
       // eslint-disable-next-line no-underscore-dangle
       element._id,
-      element.tags,
-      element.owner,
+      tags,
+      owner,
       element.createdAt,
       element.updatedAt,
       index,

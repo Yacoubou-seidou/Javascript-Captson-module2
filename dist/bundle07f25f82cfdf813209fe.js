@@ -2163,6 +2163,89 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./src/modules/createLikes.js":
+/*!************************************!*\
+  !*** ./src/modules/createLikes.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _getLikes_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getLikes.js */ "./src/modules/getLikes.js");
+/* harmony import */ var regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! regenerator-runtime/runtime.js */ "./node_modules/regenerator-runtime/runtime.js");
+/* harmony import */ var regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _updateView_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./updateView.js */ "./src/modules/updateView.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+var createLikes = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(element) {
+    var btn;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            btn = document.querySelectorAll('.btn');
+            btn.forEach(function (el, index) {
+              el.addEventListener('click', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                var response, value;
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                  while (1) {
+                    switch (_context.prev = _context.next) {
+                      case 0:
+                        _context.next = 2;
+                        return axios__WEBPACK_IMPORTED_MODULE_0___default().post('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/AsTq65ReD0zP4otrJCr3/likes/', {
+                          // eslint-disable-next-line no-underscore-dangle
+                          item_id: element[index]._id
+                        }, {
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': 'http://localhost:3000'
+                          }
+                        });
+                      case 2:
+                        response = _context.sent;
+                        if (!(response.status === 201)) {
+                          _context.next = 9;
+                          break;
+                        }
+                        _context.next = 6;
+                        return (0,_getLikes_js__WEBPACK_IMPORTED_MODULE_1__["default"])();
+                      case 6:
+                        value = _context.sent;
+                        (0,_updateView_js__WEBPACK_IMPORTED_MODULE_3__["default"])(element, value);
+                        createLikes(element);
+                      case 9:
+                      case "end":
+                        return _context.stop();
+                    }
+                  }
+                }, _callee);
+              })));
+            });
+          case 2:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+  return function createLikes(_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createLikes);
+
+/***/ }),
+
 /***/ "./src/modules/displayItems.js":
 /*!*************************************!*\
   !*** ./src/modules/displayItems.js ***!
@@ -2181,19 +2264,67 @@ __webpack_require__.r(__webpack_exports__);
 
 var container = document.querySelector('.container');
 var elementsNumber = document.querySelector('.item-number');
-var card = function card(_id, index) {
-  return "\n<article class='card' id='card-".concat(_id, "'>\n      <div class=\"cat-image\"></div>\n      <div class=\"info\"><p>cat ").concat(index, "</p>\n      <i class=\"btn fa-regular fa-heart\"></i>\n      </div>\n      <p class='rightAlign'><span>5</span> Likes</p>\n    </article>\n");
+var card = function card(_id, index, likes) {
+  return "\n<article class='card' id='card-".concat(_id, "'>\n      <div class=\"cat-image\"></div>\n      <div class=\"info\"><p>cat ").concat(index, "</p>\n      <i class=\"btn fa-regular fa-heart\"></i>\n      </div>\n      <div><p class='rightAlign'><span>").concat(likes, "</span> Likes</p></div>\n      <button class=\"add-comment-btn\" id=\"commentBtn-").concat(_id, "\">Comments</button>\n    </article>\n");
 };
-var display = function display(array) {
+var display = function display(array, likes) {
   var content = '';
   array.forEach(function (element, index) {
-    content += card(element._id, index);
+    var value = likes.filter(function (like) {
+      return element._id === like.item_id;
+    });
+    content += card(element._id, index, value[0].likes);
   });
   container.innerHTML = content;
   var result = (0,_itemNumbers_js__WEBPACK_IMPORTED_MODULE_0__["default"])(array);
   elementsNumber.textContent = "(".concat(result, ")");
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (display);
+
+/***/ }),
+
+/***/ "./src/modules/getLikes.js":
+/*!*********************************!*\
+  !*** ./src/modules/getLikes.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! regenerator-runtime/runtime.js */ "./node_modules/regenerator-runtime/runtime.js");
+/* harmony import */ var regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_1__);
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+  var response;
+  return regeneratorRuntime.wrap(function _callee$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.next = 2;
+          return axios__WEBPACK_IMPORTED_MODULE_0___default().get('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/AsTq65ReD0zP4otrJCr3/likes/', {
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': 'http://localhost:3000'
+            }
+          });
+        case 2:
+          response = _context.sent;
+          return _context.abrupt("return", response.data);
+        case 4:
+        case "end":
+          return _context.stop();
+      }
+    }
+  }, _callee);
+})));
 
 /***/ }),
 
@@ -2213,24 +2344,52 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _displayItems_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./displayItems.js */ "./src/modules/displayItems.js");
 /* harmony import */ var _renderPopup_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./renderPopup.js */ "./src/modules/renderPopup.js");
 /* harmony import */ var _popupWindow_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./popupWindow.js */ "./src/modules/popupWindow.js");
+/* harmony import */ var _getLikes_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./getLikes.js */ "./src/modules/getLikes.js");
+/* harmony import */ var _createLikes_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./createLikes.js */ "./src/modules/createLikes.js");
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
 
 
 
 
 var container = document.querySelector('.container');
-var getItemsListe = function getItemsListe() {
-  axios__WEBPACK_IMPORTED_MODULE_0___default().get('https://cataas.com/api/cats?tags=cute&skip=0&limit=6', {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }).then(function (response) {
-    (0,_displayItems_js__WEBPACK_IMPORTED_MODULE_1__["default"])(response.data);
-    (0,_popupWindow_js__WEBPACK_IMPORTED_MODULE_3__["default"])(response.data);
-    (0,_renderPopup_js__WEBPACK_IMPORTED_MODULE_2__["default"])(response.data);
-  })["catch"](function (error) {
-    container.textContent = error.message;
-  });
-};
+var getItemsListe = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var value;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return (0,_getLikes_js__WEBPACK_IMPORTED_MODULE_4__["default"])();
+          case 2:
+            value = _context.sent;
+            axios__WEBPACK_IMPORTED_MODULE_0___default().get('https://cataas.com/api/cats?tags=cute&skip=0&limit=6', {
+              headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:3000'
+              }
+            }).then(function (response) {
+              (0,_displayItems_js__WEBPACK_IMPORTED_MODULE_1__["default"])(response.data, value);
+              (0,_popupWindow_js__WEBPACK_IMPORTED_MODULE_3__["default"])(response.data);
+              (0,_renderPopup_js__WEBPACK_IMPORTED_MODULE_2__["default"])(response.data);
+              (0,_createLikes_js__WEBPACK_IMPORTED_MODULE_5__["default"])(response.data);
+            })["catch"](function (error) {
+              container.textContent = error.message;
+            });
+          case 4:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return function getItemsListe() {
+    return _ref.apply(this, arguments);
+  };
+}();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getItemsListe);
 
 /***/ }),
@@ -2266,13 +2425,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _displayItems_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./displayItems.js */ "./src/modules/displayItems.js");
 
 var itemPopup = function itemPopup(_id, tags, owner, createdAt, updatedAt, index) {
-  return "\n<section class=\"popup-window\" id=\"popup-".concat(_id, "\">\n<div class=\"popup-container\">\n  <span class=\"close-popup\" id=\"close-popup-").concat(_id, "\">\n    <svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z\" fill=\"#67798E\"/>\n      </svg>\n    </span>\n  <div class=\"popup-cat-image\"></div>\n  <p class=\"popup-title\">Cat ").concat(index, "</p>\n  <div class=\"tags-container\" id=\"tagContainer\">\n    <div class=\"tag\">").concat(tags[0], "</div>\n    <div class=\"tag\">").concat(tags[1], "</div>\n    <div class=\"tag\">").concat(tags[3], "</div>\n    <div class=\"tag\">").concat(tags[4], "</div>\n  </div>\n  <div class=\"popup-desc-container\">\n    <h2>Owner: ").concat(owner, "</h2>\n    <h2>Created At: ").concat(createdAt, "</h2>\n    <h2>Updated At: ").concat(updatedAt, "</h2>\n  </div>\n  <div class=\"comments-section\">\n    <h3>Comments</h3>\n    <div class=\"comments-list-").concat(_id, "\">\n      <div>Mia: I love it</div>\n      <div>Mia: I love it</div>\n      <div>Alex: I'd love to buy it</div>\n      <div>Alex: I'd love to buy it</div>\n    </div>\n    <button class=\"add-comment-btn\" id=\"commentBtn-").concat(_id, "\">Add Comment</button>\n    <form class=\"comment-form\" id=\"commentForm-").concat(_id, "\">\n      <input type=\"text\" class=\"comment-input\" id=\"commenter-name\" placeholder=\"Name\">\n      <input type=\"text\" class=\"comment-input\" id=\"comment-text\" placeholder=\"Comment\">\n      <button type=\"submit\">Add Comment</button>\n    </form>\n  </div>\n</div>\n</section>\n");
+  return "\n<section class=\"popup-window\" id=\"popup-".concat(_id, "\">\n<div class=\"popup-container\">\n  <span class=\"close-popup\" id=\"close-popup-").concat(_id, "\">\n    <svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z\" fill=\"#67798E\"/>\n      </svg>\n    </span>\n  <div class=\"popup-cat-image\"></div>\n  <p class=\"popup-title\">Cat ").concat(index, "</p>\n  <ul class=\"tags-container\" id=\"tagContainer\">\n  ").concat(tags, "\n  </ul>\n  <div class=\"popup-desc-container\">\n    <h2>Owner: ").concat(owner, "</h2>\n    <h2>Created At: ").concat(new Date(createdAt).toLocaleString(), "</h2>\n    <h2>Updated At: ").concat(new Date(updatedAt).toLocaleString(), "</h2>\n  </div>\n  <div class=\"comments-section\">\n    <h3>Comments</h3>\n    <div class=\"comments-list-").concat(_id, "\">\n      <div>Mia: I love it</div>\n      <div>Mia: I love it</div>\n      <div>Alex: I'd love to buy it</div>\n      <div>Alex: I'd love to buy it</div>\n    </div>\n    <form class=\"comment-form\" id=\"commentForm-").concat(_id, "\">\n      <input type=\"text\" class=\"comment-input\" id=\"commenter-name\" placeholder=\"Name\">\n      <input type=\"text\" class=\"comment-input\" id=\"comment-text\" placeholder=\"Comment\">\n      <button type=\"submit\">Add Comment</button>\n    </form>\n  </div>\n</div>\n</section>\n");
 };
 var displayPopup = function displayPopup(array) {
   array.forEach(function (element, index) {
+    var owner = element.owner;
+    var tags = '';
+    if (owner === 'null') {
+      owner = 'No owner';
+    }
+    element.tags.forEach(function (el, index) {
+      if (index < 4) {
+        tags += "<li class='tag'> ".concat(el, "</li>");
+      }
+    });
     var popupHtml = itemPopup(
     // eslint-disable-next-line no-underscore-dangle
-    element._id, element.tags, element.owner, element.createdAt, element.updatedAt, index);
+    element._id, tags, owner, element.createdAt, element.updatedAt, index);
     _displayItems_js__WEBPACK_IMPORTED_MODULE_0__.container.insertAdjacentHTML('afterbegin', popupHtml);
   });
 };
@@ -2295,7 +2464,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var renderPopup = function renderPopup(array) {
   array.forEach(function (element) {
-    var catCard = document.getElementById("card-".concat(element._id));
+    var catCard = document.getElementById("commentBtn-".concat(element._id));
     catCard.addEventListener('click', function () {
       var popUp = document.getElementById("popup-".concat(element._id));
       var closePopup = document.getElementById("close-popup-".concat(element._id));
@@ -2307,6 +2476,32 @@ var renderPopup = function renderPopup(array) {
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (renderPopup);
+
+/***/ }),
+
+/***/ "./src/modules/updateView.js":
+/*!***********************************!*\
+  !*** ./src/modules/updateView.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _displayItems_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./displayItems.js */ "./src/modules/displayItems.js");
+/* harmony import */ var _popupWindow_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./popupWindow.js */ "./src/modules/popupWindow.js");
+/* harmony import */ var _renderPopup_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./renderPopup.js */ "./src/modules/renderPopup.js");
+
+
+
+var updateView = function updateView(element, value) {
+  (0,_displayItems_js__WEBPACK_IMPORTED_MODULE_0__["default"])(element, value);
+  (0,_popupWindow_js__WEBPACK_IMPORTED_MODULE_1__["default"])(element);
+  (0,_renderPopup_js__WEBPACK_IMPORTED_MODULE_2__["default"])(element);
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateView);
 
 /***/ }),
 
@@ -2338,7 +2533,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.c
 var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
 var ___CSS_LOADER_URL_REPLACEMENT_1___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_1___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: #2fa8cc;\n  font-family: \"Roboto\", sans-serif;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  height: 100vh;\n  overflow: hidden;\n  margin: 0;\n  padding-top: 20px;\n  padding-bottom: 20px;\n  padding-left: 6%;\n  padding-right: 6%;\n}\n\nheader {\n  width: 80%;\n}\n\nnav {\n  display: flex;\n  justify-content: space-evenly;\n  align-items: center;\n  width: 80%;\n}\n\n.brand-logo {\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  border: 2px solid black;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ") center/cover;\n}\n\n.links-items {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 60%;\n  padding: 0;\n}\n\nli {\n  list-style-type: none;\n}\n\na {\n  text-decoration: none;\n  color: black;\n}\n\n.cats {\n  font-weight: bolder;\n  text-decoration: underline;\n}\n\n.container {\n  display: grid;\n  width: 85%;\n  grid-template-columns: 33% 33% 33%;\n  grid-row-gap: 50px;\n  margin-top: 80px;\n  justify-content: center;\n}\n\n.card {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  cursor: pointer;\n}\n\n.cat-image {\n  width: 100px;\n  height: 100px;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") center/cover;\n}\n\nfooter {\n  position: fixed;\n  bottom: 0;\n  padding-left: 20px;\n  padding-right: 20px;\n  width: 100%;\n  height: 60px;\n  border: 2px solid black;\n}\n\n.popup-window {\n  z-index: 4;\n  display: none;\n  justify-content: center;\n  align-items: center;\n  position: fixed;\n  top: 0;\n  left: 0;\n  height: 103vh;\n  width: 100%;\n  background: rgba(0, 0, 0, 0.7);\n  backdrop-filter: blur(4px);\n}\n\n.close-popup {\n  position: absolute;\n  top: 20px;\n  right: 20px;\n}\n\n.popup-container {\n  height: 80vh;\n  position: relative;\n  background-color: white;\n  margin: 60px 90px;\n  padding: 16px;\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  gap: 10px;\n  flex-direction: column;\n  border-radius: 15px;\n  overflow-y: scroll;\n}\n\n.popup-cat-image {\n  margin-top: 40px;\n  width: 50px;\n  height: 50px;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") center/cover;\n}\n\n.popup-title {\n  font-size: 20px;\n}\n\n.tags-container {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 25px;\n  padding: 8px 30px;\n}\n\n.tag {\n  background: rgba(175, 172, 172, 0.3);\n  padding: 8px;\n  border-radius: 15px;\n  text-transform: uppercase;\n}\n\n.popup-desc-container {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-between;\n  gap: 22px;\n  padding: 8px 30px;\n}\n\n.popup-desc-container h2 {\n  font-size: 18px;\n}\n\n.comments-section {\n  display: flex;\n  flex-direction: column;\n  gap: 7px;\n}\n\n.comments-section h3 {\n  text-align: center;\n}\n\nbutton {\n  height: 30px;\n  padding-left: 15px;\n  padding-right: 15px;\n  background-color: #2fa8cc;\n  border-radius: 10px;\n  border: none;\n  cursor: pointer;\n  box-shadow: 0 4px #999;\n  font-size: 16px;\n  font-family: \"Roboto\", sans-serif;\n}\n\nbutton:hover {\n  background-color: #2ac5b0;\n}\n\nbutton:active {\n  background-color: #2ac5b0;\n  box-shadow: 0 3px #666;\n  transform: translateY(1px);\n}\n\n.comments-list {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  justify-content: space-around;\n}\n\n.comments-list div {\n  width: 100%;\n  padding: 5px 7px;\n}\n\n.comments-list div:nth-child(odd) {\n  background-color: #999;\n}\n\nform {\n  margin-top: 12px;\n  display: none;\n  flex-wrap: wrap;\n  justify-content: space-between;\n  gap: 15px;\n}\n\ninput {\n  padding: 7px 7px;\n  border-radius: 15px;\n}\n\n.info {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 100px;\n}\n\n.btn {\n  font-size: 20px;\n}\n\n.rightAlign {\n  margin: 0;\n  text-align: right;\n  width: 100px;\n}", "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAMA;EACE,sBAAA;AAJF;;AAOA;EACE,yBATc;EAUd,iCAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,2BAAA;EACA,aAAA;EACA,gBAAA;EACA,SAAA;EACA,iBAAA;EACA,oBAAA;EACA,gBAAA;EACA,iBAAA;AAJF;;AAOA;EACE,UAAA;AAJF;;AAOA;EACE,aAAA;EACA,6BAAA;EACA,mBAAA;EACA,UAAA;AAJF;;AAOA;EACE,WAAA;EACA,YAAA;EACA,kBAAA;EACA,uBAAA;EACA,gEAAA;AAJF;;AAOA;EACE,aAAA;EACA,8BAAA;EACA,mBAAA;EACA,UAAA;EACA,UAAA;AAJF;;AAOA;EACE,qBAAA;AAJF;;AAOA;EACE,qBAAA;EACA,YAAA;AAJF;;AAOA;EACE,mBAAA;EACA,0BAAA;AAJF;;AAOA;EACE,aAAA;EACA,UAAA;EACA,kCAAA;EACA,kBAAA;EACA,gBAAA;EACA,uBAAA;AAJF;;AAOA;EACE,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;EACA,eAAA;AAJF;;AAOA;EACE,YAAA;EACA,aAAA;EACA,gEAAA;AAJF;;AAOA;EACE,eAAA;EACA,SAAA;EACA,kBAAA;EACA,mBAAA;EACA,WAAA;EACA,YAAA;EACA,uBAAA;AAJF;;AAOA;EACE,UAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,eAAA;EACA,MAAA;EACA,OAAA;EACA,aAAA;EACA,WAAA;EACA,8BAAA;EACA,0BAAA;AAJF;;AAOA;EACE,kBAAA;EACA,SAAA;EACA,WAAA;AAJF;;AAOA;EACE,YAAA;EACA,kBAAA;EACA,uBAAA;EACA,iBAAA;EACA,aAAA;EACA,aAAA;EACA,mBAAA;EACA,2BAAA;EACA,SAAA;EACA,sBAAA;EACA,mBAAA;EACA,kBAAA;AAJF;;AAOA;EACE,gBAAA;EACA,WAAA;EACA,YAAA;EACA,gEAAA;AAJF;;AAOA;EACE,eAAA;AAJF;;AAOA;EACE,aAAA;EACA,eAAA;EACA,SAAA;EACA,iBAAA;AAJF;;AAOA;EACE,oCAAA;EACA,YAAA;EACA,mBAAA;EACA,yBAAA;AAJF;;AAOA;EACE,aAAA;EACA,eAAA;EACA,8BAAA;EACA,SAAA;EACA,iBAAA;AAJF;;AAOA;EACE,eAAA;AAJF;;AAOA;EACE,aAAA;EACA,sBAAA;EACA,QAAA;AAJF;;AAOA;EACE,kBAAA;AAJF;;AAOA;EACE,YAAA;EACA,kBAAA;EACA,mBAAA;EACA,yBAAA;EACA,mBAAA;EACA,YAAA;EACA,eAAA;EACA,sBAAA;EACA,eAAA;EACA,iCAAA;AAJF;;AAOA;EACE,yBAAA;AAJF;;AAOA;EACE,yBAAA;EACA,sBAAA;EACA,0BAAA;AAJF;;AAOA;EACE,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,6BAAA;AAJF;;AAOA;EACE,WAAA;EACA,gBAAA;AAJF;;AAOA;EACE,sBAAA;AAJF;;AAOA;EACE,gBAAA;EACA,aAAA;EACA,eAAA;EACA,8BAAA;EACA,SAAA;AAJF;;AAOA;EACE,gBAAA;EACA,mBAAA;AAJF;;AAOA;EACE,aAAA;EACA,8BAAA;EACA,mBAAA;EACA,YAAA;AAJF;;AAOA;EACE,eAAA;AAJF;;AAOA;EACE,SAAA;EACA,iBAAA;EACA,YAAA;AAJF","sourcesContent":["@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');\r\n\r\n$primary-color: #2fa8cc;\r\n$secondary-color: #f4f4f4;\r\n$box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\r\n\r\n* {\r\n  box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n  background-color: $primary-color;\r\n  font-family: 'Roboto', sans-serif;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  justify-content: flex-start;\r\n  height: 100vh;\r\n  overflow: hidden;\r\n  margin: 0;\r\n  padding-top: 20px;\r\n  padding-bottom: 20px;\r\n  padding-left: 6%;\r\n  padding-right: 6%;\r\n}\r\n\r\nheader {\r\n  width: 80%;\r\n}\r\n\r\nnav {\r\n  display: flex;\r\n  justify-content: space-evenly;\r\n  align-items: center;\r\n  width: 80%;\r\n}\r\n\r\n.brand-logo {\r\n  width: 60px;\r\n  height: 60px;\r\n  border-radius: 50%;\r\n  border: 2px solid black;\r\n  background: url('/public/catlogo.avif') center / cover;\r\n}\r\n\r\n.links-items {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  width: 60%;\r\n  padding: 0;\r\n}\r\n\r\nli {\r\n  list-style-type: none;\r\n}\r\n\r\na {\r\n  text-decoration: none;\r\n  color: black;\r\n}\r\n\r\n.cats {\r\n  font-weight: bolder;\r\n  text-decoration: underline;\r\n}\r\n\r\n.container {\r\n  display: grid;\r\n  width: 85%;\r\n  grid-template-columns: 33% 33% 33%;\r\n  grid-row-gap: 50px;\r\n  margin-top: 80px;\r\n  justify-content: center;\r\n}\r\n\r\n.card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  cursor: pointer;\r\n}\r\n\r\n.cat-image {\r\n  width: 100px;\r\n  height: 100px;\r\n  background: url('/public/download.png') center / cover;\r\n}\r\n\r\nfooter {\r\n  position: fixed;\r\n  bottom: 0;\r\n  padding-left: 20px;\r\n  padding-right: 20px;\r\n  width: 100%;\r\n  height: 60px;\r\n  border: 2px solid black;\r\n}\r\n\r\n.popup-window {\r\n  z-index: 4;\r\n  display: none;\r\n  justify-content: center;\r\n  align-items: center;\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  height: 103vh;\r\n  width: 100%;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  backdrop-filter: blur(4px);\r\n}\r\n\r\n.close-popup {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 20px;\r\n}\r\n\r\n.popup-container {\r\n  height: 80vh;\r\n  position: relative;\r\n  background-color: white;\r\n  margin: 60px 90px;\r\n  padding: 16px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: flex-start;\r\n  gap: 10px;\r\n  flex-direction: column;\r\n  border-radius: 15px;\r\n  overflow-y: scroll;\r\n}\r\n\r\n.popup-cat-image {\r\n  margin-top: 40px;\r\n  width: 50px;\r\n  height: 50px;\r\n  background: url('/public/download.png') center / cover;\r\n}\r\n\r\n.popup-title {\r\n  font-size: 20px;\r\n}\r\n\r\n.tags-container {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  gap: 25px;\r\n  padding: 8px 30px;\r\n}\r\n\r\n.tag {\r\n  background: rgba(175, 172, 172, 0.3);\r\n  padding: 8px;\r\n  border-radius: 15px;\r\n  text-transform: uppercase;\r\n}\r\n\r\n.popup-desc-container {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  justify-content: space-between;\r\n  gap: 22px;\r\n  padding: 8px 30px;\r\n}\r\n\r\n.popup-desc-container h2 {\r\n  font-size: 18px;\r\n}\r\n\r\n.comments-section {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 7px;\r\n}\r\n\r\n.comments-section h3 {\r\n  text-align: center;\r\n}\r\n\r\nbutton {\r\n  height: 30px;\r\n  padding-left: 15px;\r\n  padding-right: 15px;\r\n  background-color: #2fa8cc;\r\n  border-radius: 10px;\r\n  border: none;\r\n  cursor: pointer;\r\n  box-shadow: 0 4px #999;\r\n  font-size: 16px;\r\n  font-family: \"Roboto\", sans-serif;\r\n}\r\n\r\nbutton:hover {\r\n  background-color: #2ac5b0;\r\n}\r\n\r\nbutton:active {\r\n  background-color: #2ac5b0;\r\n  box-shadow: 0 3px #666;\r\n  transform: translateY(1px);\r\n}\r\n\r\n.comments-list {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: flex-start;\r\n  justify-content: space-around;\r\n}\r\n\r\n.comments-list div {\r\n  width: 100%;\r\n  padding: 5px 7px;\r\n}\r\n\r\n.comments-list div:nth-child(odd) {\r\n  background-color: #999;\r\n}\r\n\r\nform {\r\n  margin-top: 12px;\r\n  display: none;\r\n  flex-wrap: wrap;\r\n  justify-content: space-between;\r\n  gap: 15px;\r\n}\r\n\r\ninput {\r\n  padding: 7px 7px;\r\n  border-radius: 15px;\r\n}\r\n\r\n.info {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  width: 100px;\r\n}\r\n\r\n.btn {\r\n  font-size: 20px;\r\n}\r\n\r\n.rightAlign {\r\n  margin: 0;\r\n  text-align: right;\r\n  width: 100px;\r\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: #2fa8cc;\n  font-family: \"Roboto\", sans-serif;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  height: 100vh;\n  overflow: hidden;\n  margin: 0;\n  padding-top: 20px;\n  padding-bottom: 20px;\n  padding-left: 6%;\n  padding-right: 6%;\n}\n\nheader {\n  width: 80%;\n}\n\nnav {\n  display: flex;\n  justify-content: space-evenly;\n  align-items: center;\n  width: 80%;\n}\n\n.brand-logo {\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  border: 2px solid black;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ") center/cover;\n}\n\n.links-items {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 60%;\n  padding: 0;\n}\n\nli {\n  list-style-type: none;\n}\n\na {\n  text-decoration: none;\n  color: black;\n}\n\n.cats {\n  font-weight: bolder;\n  text-decoration: underline;\n}\n\n.container {\n  display: grid;\n  width: 85%;\n  grid-template-columns: 33% 33% 33%;\n  grid-row-gap: 50px;\n  margin-top: 80px;\n  justify-content: center;\n}\n\n.card {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  cursor: pointer;\n}\n\n.cat-image {\n  width: 100px;\n  height: 100px;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") center/cover;\n}\n\nfooter {\n  position: fixed;\n  bottom: 0;\n  padding-left: 20px;\n  padding-right: 20px;\n  width: 100%;\n  height: 60px;\n  border: 2px solid black;\n}\n\n.popup-window {\n  z-index: 4;\n  display: none;\n  justify-content: center;\n  align-items: center;\n  position: fixed;\n  top: 0;\n  left: 0;\n  height: 103vh;\n  width: 100%;\n  background: rgba(0, 0, 0, 0.7);\n  backdrop-filter: blur(4px);\n}\n\n.close-popup {\n  position: absolute;\n  top: 20px;\n  right: 20px;\n}\n\n.popup-container {\n  height: 95vh;\n  position: relative;\n  background-color: white;\n  margin: 60px 90px;\n  padding: 16px;\n  display: flex;\n  align-items: center;\n  justify-content: flex-start;\n  gap: 10px;\n  flex-direction: column;\n  border-radius: 15px;\n  overflow-y: scroll;\n}\n\n.popup-cat-image {\n  width: 200px;\n  height: 200px;\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") center/cover;\n}\n\n.popup-title {\n  font-size: 20px;\n}\n\n.tags-container {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 25px;\n  padding: 8px 30px;\n}\n\n.tag {\n  background: rgba(175, 172, 172, 0.3);\n  padding: 8px;\n  border-radius: 15px;\n  text-transform: uppercase;\n}\n\n.popup-desc-container {\n  display: grid;\n  grid-template-columns: 50% 50%;\n  justify-content: space-between;\n  gap: 22px;\n  padding: 8px 30px;\n}\n\n.popup-desc-container h2 {\n  font-size: 18px;\n}\n\n.comments-section {\n  display: flex;\n  flex-direction: column;\n  gap: 7px;\n}\n\n.comments-section h3 {\n  text-align: center;\n}\n\n.add-comment-btn {\n  height: 30px;\n  margin-top: 10px;\n  padding-left: 15px;\n  padding-right: 15px;\n  border-radius: 10px;\n  cursor: pointer;\n  font-size: 16px;\n  font-family: \"Roboto\", sans-serif;\n}\n\n.comments-list {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  justify-content: space-around;\n}\n\n.comments-list div {\n  width: 100%;\n  padding: 5px 7px;\n}\n\n.comments-list div:nth-child(odd) {\n  background-color: #999;\n}\n\nform {\n  margin-top: 12px;\n  display: none;\n  flex-wrap: wrap;\n  justify-content: space-between;\n  gap: 15px;\n}\n\ninput {\n  padding: 7px 7px;\n  border-radius: 15px;\n}\n\n.info {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 100px;\n}\n\n.btn {\n  font-size: 20px;\n}\n\n.rightAlign {\n  margin: 0;\n  text-align: right;\n  width: 100px;\n}", "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAMA;EACE,sBAAA;AAJF;;AAOA;EACE,yBATc;EAUd,iCAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,2BAAA;EACA,aAAA;EACA,gBAAA;EACA,SAAA;EACA,iBAAA;EACA,oBAAA;EACA,gBAAA;EACA,iBAAA;AAJF;;AAOA;EACE,UAAA;AAJF;;AAOA;EACE,aAAA;EACA,6BAAA;EACA,mBAAA;EACA,UAAA;AAJF;;AAOA;EACE,WAAA;EACA,YAAA;EACA,kBAAA;EACA,uBAAA;EACA,gEAAA;AAJF;;AAOA;EACE,aAAA;EACA,8BAAA;EACA,mBAAA;EACA,UAAA;EACA,UAAA;AAJF;;AAOA;EACE,qBAAA;AAJF;;AAOA;EACE,qBAAA;EACA,YAAA;AAJF;;AAOA;EACE,mBAAA;EACA,0BAAA;AAJF;;AAOA;EACE,aAAA;EACA,UAAA;EACA,kCAAA;EACA,kBAAA;EACA,gBAAA;EACA,uBAAA;AAJF;;AAOA;EACE,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;EACA,eAAA;AAJF;;AAOA;EACE,YAAA;EACA,aAAA;EACA,gEAAA;AAJF;;AAOA;EACE,eAAA;EACA,SAAA;EACA,kBAAA;EACA,mBAAA;EACA,WAAA;EACA,YAAA;EACA,uBAAA;AAJF;;AAOA;EACE,UAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,eAAA;EACA,MAAA;EACA,OAAA;EACA,aAAA;EACA,WAAA;EACA,8BAAA;EACA,0BAAA;AAJF;;AAOA;EACE,kBAAA;EACA,SAAA;EACA,WAAA;AAJF;;AAOA;EACE,YAAA;EACA,kBAAA;EACA,uBAAA;EACA,iBAAA;EACA,aAAA;EACA,aAAA;EACA,mBAAA;EACA,2BAAA;EACA,SAAA;EACA,sBAAA;EACA,mBAAA;EACA,kBAAA;AAJF;;AAOA;EACE,YAAA;EACA,aAAA;EACA,gEAAA;AAJF;;AAOA;EACE,eAAA;AAJF;;AAOA;EACE,aAAA;EACA,eAAA;EACA,SAAA;EACA,iBAAA;AAJF;;AAOA;EACE,oCAAA;EACA,YAAA;EACA,mBAAA;EACA,yBAAA;AAJF;;AAOA;EACE,aAAA;EACA,8BAAA;EACA,8BAAA;EACA,SAAA;EACA,iBAAA;AAJF;;AAOA;EACE,eAAA;AAJF;;AAOA;EACE,aAAA;EACA,sBAAA;EACA,QAAA;AAJF;;AAOA;EACE,kBAAA;AAJF;;AAOA;EACE,YAAA;EACA,gBAAA;EACA,kBAAA;EACA,mBAAA;EACA,mBAAA;EACA,eAAA;EACA,eAAA;EACA,iCAAA;AAJF;;AAOA;EACE,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,6BAAA;AAJF;;AAOA;EACE,WAAA;EACA,gBAAA;AAJF;;AAOA;EACE,sBAAA;AAJF;;AAOA;EACE,gBAAA;EACA,aAAA;EACA,eAAA;EACA,8BAAA;EACA,SAAA;AAJF;;AAOA;EACE,gBAAA;EACA,mBAAA;AAJF;;AAOA;EACE,aAAA;EACA,8BAAA;EACA,mBAAA;EACA,YAAA;AAJF;;AAOA;EACE,eAAA;AAJF;;AAOA;EACE,SAAA;EACA,iBAAA;EACA,YAAA;AAJF","sourcesContent":["@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');\r\n\r\n$primary-color: #2fa8cc;\r\n$secondary-color: #f4f4f4;\r\n$box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\r\n\r\n* {\r\n  box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n  background-color: $primary-color;\r\n  font-family: 'Roboto', sans-serif;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  justify-content: flex-start;\r\n  height: 100vh;\r\n  overflow: hidden;\r\n  margin: 0;\r\n  padding-top: 20px;\r\n  padding-bottom: 20px;\r\n  padding-left: 6%;\r\n  padding-right: 6%;\r\n}\r\n\r\nheader {\r\n  width: 80%;\r\n}\r\n\r\nnav {\r\n  display: flex;\r\n  justify-content: space-evenly;\r\n  align-items: center;\r\n  width: 80%;\r\n}\r\n\r\n.brand-logo {\r\n  width: 60px;\r\n  height: 60px;\r\n  border-radius: 50%;\r\n  border: 2px solid black;\r\n  background: url('/public/catlogo.avif') center / cover;\r\n}\r\n\r\n.links-items {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  width: 60%;\r\n  padding: 0;\r\n}\r\n\r\nli {\r\n  list-style-type: none;\r\n}\r\n\r\na {\r\n  text-decoration: none;\r\n  color: black;\r\n}\r\n\r\n.cats {\r\n  font-weight: bolder;\r\n  text-decoration: underline;\r\n}\r\n\r\n.container {\r\n  display: grid;\r\n  width: 85%;\r\n  grid-template-columns: 33% 33% 33%;\r\n  grid-row-gap: 50px;\r\n  margin-top: 80px;\r\n  justify-content: center;\r\n}\r\n\r\n.card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  cursor: pointer;\r\n}\r\n\r\n.cat-image {\r\n  width: 100px;\r\n  height: 100px;\r\n  background: url('/public/download.png') center / cover;\r\n}\r\n\r\nfooter {\r\n  position: fixed;\r\n  bottom: 0;\r\n  padding-left: 20px;\r\n  padding-right: 20px;\r\n  width: 100%;\r\n  height: 60px;\r\n  border: 2px solid black;\r\n}\r\n\r\n.popup-window {\r\n  z-index: 4;\r\n  display: none;\r\n  justify-content: center;\r\n  align-items: center;\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  height: 103vh;\r\n  width: 100%;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  backdrop-filter: blur(4px);\r\n}\r\n\r\n.close-popup {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 20px;\r\n}\r\n\r\n.popup-container {\r\n  height: 95vh;\r\n  position: relative;\r\n  background-color: white;\r\n  margin: 60px 90px;\r\n  padding: 16px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: flex-start;\r\n  gap: 10px;\r\n  flex-direction: column;\r\n  border-radius: 15px;\r\n  overflow-y: scroll;\r\n}\r\n\r\n.popup-cat-image {\r\n  width: 200px;\r\n  height: 200px;\r\n  background: url('/public/download.png') center / cover;\r\n}\r\n\r\n.popup-title {\r\n  font-size: 20px;\r\n}\r\n\r\n.tags-container {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  gap: 25px;\r\n  padding: 8px 30px;\r\n}\r\n\r\n.tag {\r\n  background: rgba(175, 172, 172, 0.3);\r\n  padding: 8px;\r\n  border-radius: 15px;\r\n  text-transform: uppercase;\r\n}\r\n\r\n.popup-desc-container {\r\n  display: grid;\r\n  grid-template-columns: 50% 50%;\r\n  justify-content: space-between;\r\n  gap: 22px;\r\n  padding: 8px 30px;\r\n}\r\n\r\n.popup-desc-container h2 {\r\n  font-size: 18px;\r\n}\r\n\r\n.comments-section {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 7px;\r\n}\r\n\r\n.comments-section h3 {\r\n  text-align: center;\r\n}\r\n\r\n.add-comment-btn {\r\n  height: 30px;\r\n  margin-top: 10px;\r\n  padding-left: 15px;\r\n  padding-right: 15px;\r\n  border-radius: 10px;\r\n  cursor: pointer;\r\n  font-size: 16px;\r\n  font-family: \"Roboto\", sans-serif;\r\n}\r\n\r\n.comments-list {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: flex-start;\r\n  justify-content: space-around;\r\n}\r\n\r\n.comments-list div {\r\n  width: 100%;\r\n  padding: 5px 7px;\r\n}\r\n\r\n.comments-list div:nth-child(odd) {\r\n  background-color: #999;\r\n}\r\n\r\nform {\r\n  margin-top: 12px;\r\n  display: none;\r\n  flex-wrap: wrap;\r\n  justify-content: space-between;\r\n  gap: 15px;\r\n}\r\n\r\ninput {\r\n  padding: 7px 7px;\r\n  border-radius: 15px;\r\n}\r\n\r\n.info {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  width: 100px;\r\n}\r\n\r\n.btn {\r\n  font-size: 20px;\r\n}\r\n\r\n.rightAlign {\r\n  margin: 0;\r\n  text-align: right;\r\n  width: 100px;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2525,6 +2720,777 @@ module.exports = function (item) {
 
   return [content].join("\n");
 };
+
+/***/ }),
+
+/***/ "./node_modules/regenerator-runtime/runtime.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/***/ ((module) => {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var runtime = (function (exports) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; };
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function define(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+    return obj[key];
+  }
+  try {
+    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
+    define({}, "");
+  } catch (err) {
+    define = function(obj, key, value) {
+      return obj[key] = value;
+    };
+  }
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) });
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  define(IteratorPrototype, iteratorSymbol, function () {
+    return this;
+  });
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = GeneratorFunctionPrototype;
+  defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: true });
+  defineProperty(
+    GeneratorFunctionPrototype,
+    "constructor",
+    { value: GeneratorFunction, configurable: true }
+  );
+  GeneratorFunction.displayName = define(
+    GeneratorFunctionPrototype,
+    toStringTagSymbol,
+    "GeneratorFunction"
+  );
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      define(prototype, method, function(arg) {
+        return this._invoke(method, arg);
+      });
+    });
+  }
+
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      define(genFun, toStringTagSymbol, "GeneratorFunction");
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return PromiseImpl.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return PromiseImpl.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new PromiseImpl(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    defineProperty(this, "_invoke", { value: enqueue });
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
+    return this;
+  });
+  exports.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    if (PromiseImpl === void 0) PromiseImpl = Promise;
+
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList),
+      PromiseImpl
+    );
+
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var methodName = context.method;
+    var method = delegate.iterator[methodName];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method, or a missing .next mehtod, always terminate the
+      // yield* loop.
+      context.delegate = null;
+
+      // Note: ["return"] must be used for ES3 parsing compatibility.
+      if (methodName === "throw" && delegate.iterator["return"]) {
+        // If the delegate iterator has a return method, give it a
+        // chance to clean up.
+        context.method = "return";
+        context.arg = undefined;
+        maybeInvokeDelegate(delegate, context);
+
+        if (context.method === "throw") {
+          // If maybeInvokeDelegate(context) changed context.method from
+          // "return" to "throw", let that override the TypeError below.
+          return ContinueSentinel;
+        }
+      }
+      if (methodName !== "return") {
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a '" + methodName + "' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  define(Gp, toStringTagSymbol, "Generator");
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  define(Gp, iteratorSymbol, function() {
+    return this;
+  });
+
+  define(Gp, "toString", function() {
+    return "[object Generator]";
+  });
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(val) {
+    var object = Object(val);
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : 0
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, in modern engines
+  // we can explicitly access globalThis. In older engines we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  if (typeof globalThis === "object") {
+    globalThis.regeneratorRuntime = runtime;
+  } else {
+    Function("r", "regeneratorRuntime = r")(runtime);
+  }
+}
+
 
 /***/ }),
 
@@ -3068,4 +4034,4 @@ __webpack_require__.r(__webpack_exports__);
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle2a5290785807fc556a8e.js.map
+//# sourceMappingURL=bundle07f25f82cfdf813209fe.js.map
