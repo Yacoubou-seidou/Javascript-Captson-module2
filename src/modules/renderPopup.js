@@ -1,5 +1,7 @@
 /* eslint-disable quote-props */
 /* eslint-disable no-underscore-dangle */
+const commentHtml = (comment, creationDate, username) => `<div>${creationDate} ${username}: ${comment}</div>`;
+
 const renderPopup = (array) => {
   array.forEach((element) => {
     const catCard = document.getElementById(`card-${element._id}`);
@@ -11,6 +13,7 @@ const renderPopup = (array) => {
       const commentForm = document.getElementById(`commentForm-${element._id}`);
       const commentName = document.getElementById(`commenter-name-${element._id}`);
       const commentText = document.getElementById(`comment-text-${element._id}`);
+      const commentsList = document.getElementById(`comments-list-${element._id}`);
       closePopup.addEventListener('click', () => {
         popUp.style.display = 'none';
       });
@@ -19,7 +22,7 @@ const renderPopup = (array) => {
         commentForm.addEventListener('submit', (e) => {
           e.preventDefault();
           try {
-            fetch('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/AsTq65ReD0zP4otrJCr34/comments', {
+            fetch('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/AsTq65ReD0zP4otrJCr3/comments', {
               method: 'POST',
               headers: {
               // eslint-disable-next-line quote-props
@@ -32,11 +35,11 @@ const renderPopup = (array) => {
                 comment: commentText.value,
               }),
             });
-            document.getElementById(`commenter-name-${element._id}`).value = '';
-            document.getElementById(`comment-text-${element._id}`).value = '';
           } catch (error) {
             console.log(error);
           }
+          document.getElementById(`commenter-name-${element._id}`).value = '';
+          document.getElementById(`comment-text-${element._id}`).value = '';
         });
       });
     });

@@ -21,13 +21,9 @@ const itemPopup = (_id, tags, owner, createdAt, updatedAt, index) => `
     <h2>Created At: ${createdAt}</h2>
     <h2>Updated At: ${updatedAt}</h2>
   </div>
-  <div class="comments-section">
+  <div class="comments-section" id="comments">
     <h3>Comments</h3>
     <div class="comments-list-${_id}">
-      <div>Mia: I love it</div>
-      <div>Mia: I love it</div>
-      <div>Alex: I'd love to buy it</div>
-      <div>Alex: I'd love to buy it</div>
     </div>
     <button class="add-comment-btn" id="commentBtn-${_id}">Add Comment</button>
     <form class="comment-form" id="commentForm-${_id}">
