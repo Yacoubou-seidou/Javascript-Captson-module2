@@ -59,8 +59,6 @@ const renderPopup = (array) => {
           } catch (error) {
             console.log(error);
           }
-          document.getElementById(`commenter-name-${element._id}`).value = '';
-          document.getElementById(`comment-text-${element._id}`).value = '';
           closePopup.click();
         });
       });
