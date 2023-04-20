@@ -26,7 +26,6 @@ const itemPopup = (_id, tags, owner, createdAt, updatedAt, index) => `
       <div>Alex: I'd love to buy it</div>
       <div>Alex: I'd love to buy it</div>
     </div>
-    <button class="add-comment-btn" id="commentBtn-${_id}">Add Comment</button>
     <form class="comment-form" id="commentForm-${_id}">
       <input type="text" class="comment-input" id="commenter-name" placeholder="Name">
       <input type="text" class="comment-input" id="comment-text" placeholder="Comment">

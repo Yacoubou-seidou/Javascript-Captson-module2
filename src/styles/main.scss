@@ -79,7 +79,6 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
 }
 
 .cat-image {
@@ -179,27 +178,20 @@ footer {
   text-align: center;
 }
 
-button {
+.add-comment-btn {
   height: 30px;
+  margin-top: 10px;
   padding-left: 15px;
   padding-right: 15px;
-  background-color: #2fa8cc;
   border-radius: 10px;
-  border: none;
   cursor: pointer;
-  box-shadow: 0 4px #999;
   font-size: 16px;
   font-family: "Roboto", sans-serif;
 }
 
-button:hover {
-  background-color: #2ac5b0;
-}
-
-button:active {
-  background-color: #2ac5b0;
-  box-shadow: 0 3px #666;
-  transform: translateY(1px);
+.add-comment-btn:hover {
+  background-color: black;
+  color: white;
 }
 
 .comments-list {
@@ -240,6 +232,11 @@ input {
 
 .btn {
   font-size: 20px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  color: white;
 }
 
 .rightAlign {

@@ -10,14 +10,14 @@ export const card = (_id, index, likes) => `
       <i class="btn fa-regular fa-heart"></i>
       </div>
       <div><p class='rightAlign'><span>${likes}</span> Likes</p></div>
-      <button class="add-comment-btn" id="commentBtn-${_id}">Add Comment</button>
+      <button class="add-comment-btn" id="commentBtn-${_id}">Comments</button>
     </article>
 `;
 const display = (array, likes) => {
   let content = '';
   array.forEach((element, index) => {
-    // const value = likes.filter((like) => element._id === like.item_id);
-    content += card(element._id, index, likes);
+    const value = likes.filter((like) => element._id === like.item_id);
+    content += card(element._id, index, value[0].likes);
   });
   container.innerHTML = content;
   const result = itemNumbers(array);
