@@ -23,7 +23,7 @@ const itemPopup = (_id, tags, owner, createdAt, updatedAt, index) => `
   </div>
   <div class="comments-section" id="comments">
     <h3>Comments</h3>
-    <div class="comments-list-${_id}">
+    <div class="comments-list" id="commentsList-${_id}">
     </div>
     <button class="add-comment-btn" id="commentBtn-${_id}">Add Comment</button>
     <form class="comment-form" id="commentForm-${_id}">

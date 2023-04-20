@@ -13,7 +13,7 @@ const renderPopup = (array) => {
       const commentForm = document.getElementById(`commentForm-${element._id}`);
       const commentName = document.getElementById(`commenter-name-${element._id}`);
       const commentText = document.getElementById(`comment-text-${element._id}`);
-      const commentsList = document.getElementById(`comments-list-${element._id}`);
+      const commentsList = document.getElementById(`commentsList-${element._id}`);
       closePopup.addEventListener('click', () => {
         popUp.style.display = 'none';
       });
@@ -41,6 +41,21 @@ const renderPopup = (array) => {
           document.getElementById(`commenter-name-${element._id}`).value = '';
           document.getElementById(`comment-text-${element._id}`).value = '';
         });
+
+        try {
+          fetch(`https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/AsTq65ReD0zP4otrJCr3/comments?item_id=${element._id}`)
+            .then((result) => result.json())
+            .then((data) => {
+              data.forEach((comment) => {
+                const htmlToAdd = commentHtml(comment.comment,
+                  comment.creationDate,
+                  comment.username);
+                commentsList.insertAdjacentHTML('afterbegin', htmlToAdd);
+              });
+            });
+        } catch (error) {
+          console.log(error);
+        }
       });
     });
   });
