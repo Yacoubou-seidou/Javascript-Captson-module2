@@ -19,9 +19,11 @@ const itemPopup = (_id, tags, owner, createdAt, updatedAt, index) => `
     <h2>Updated At: ${new Date(updatedAt).toLocaleString()}</h2>
   </div>
   <div class="comments-section" id="comments">
-    <h3>Comments</h3>
-    <div class="comments-list" id="commentsList-${_id}">
-    </div>
+  <div class="comments-header">
+  <h3>Comments <h3 id="commentNumber-${_id}"></h3></h3>
+  </div>
+  <div class="comments-list" id="commentsList-${_id}"></div>
+    <button type="button" id="AddCommentBtn-${_id}">Add a new comment</button>
     <form class="comment-form" id="commentForm-${_id}">
       <input type="text" class="comment-input" id="commenter-name-${_id}" placeholder="Name">
       <input type="text" class="comment-input" id="comment-text-${_id}" placeholder="Comment">

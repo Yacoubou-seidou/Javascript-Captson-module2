@@ -178,7 +178,7 @@ footer {
   text-align: center;
 }
 
-.add-comment-btn {
+button {
   height: 30px;
   margin-top: 10px;
   padding-left: 15px;
@@ -189,7 +189,7 @@ footer {
   font-family: "Roboto", sans-serif;
 }
 
-.add-comment-btn:hover {
+button:hover {
   background-color: black;
   color: white;
 }
@@ -243,4 +243,12 @@ input {
   margin: 0;
   text-align: right;
   width: 100px;
+}
+
+.comments-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
 }
