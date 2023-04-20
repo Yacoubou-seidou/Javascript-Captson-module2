@@ -59,6 +59,7 @@ const renderPopup = (array) => {
           } catch (error) {
             console.log(error);
           }
+          commentForm.reset();
           closePopup.click();
         });
       });
